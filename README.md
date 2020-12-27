@@ -64,10 +64,10 @@ If you created something awesome and want to contribute then feel free to open a
 
 ## Challenges for future development
 
-- DSCC has a customer portal which has a login system,at the moment of writing this document i don't know how to perform form submission using cheerio (this might not be possible with cheerio,have to use puppeteer or other scraping framework)
-- Titas has a customer portal but i need a customer code to register to there portal which will be provided upon making a call to there helpline 16496,at the moment of writting this document nobody is picking up my call.Way to go digital Bangladesh
-- WASA has a customer portal
-- NBR need more research
+- DSCC - has a customer portal which has a login system,at the moment of writing this document i don't know how to perform form submission using cheerio (this might not be possible with cheerio,have to use puppeteer or other scraping framework)
+- Titas - has a customer portal but i need a customer code to register to there portal which will be provided upon making a call to there helpline 16496,at the moment of writting this document nobody is picking up my call.Way to go digital Bangladesh
+- WASA - has a customer portal,need more research
+- NBR - need more research
 
 ## Special Thanks
 
@@ -76,3 +76,7 @@ This app is based on [Esau Silva's](https://esausilva.com/) [example-create-reac
 ## Tutorial
 
 Visit [Esau Silva's](https://esausilva.com/2017/11/14/how-to-use-create-react-app-with-a-node-express-backend-api/) blog to get step-by-step guide of how to make a node-express-react app in same directory
+
+## Disclaimer
+
+Scraping a site is harmful if its done in the wrong way,my intention is purely for the betterment of Dhaka's citizen.Any person using this repository for ill-intention will be liable for his/her own deed.
