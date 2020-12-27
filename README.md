@@ -2,7 +2,7 @@
 
 ## Description:
 
-An app which will show bulk electricity bill from my local power distributor(DPDC)
+An app which will show bulk electricity bill from Dhaka Power Distribution Company (DPDC)
 
 ## Motivation:
 
