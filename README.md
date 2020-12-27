@@ -36,13 +36,21 @@ You need to know [cheerio](https://cheerio.js.org/) before you can start editing
 
 Goto `controllers/scraper.controller.js` and edit the file according to your need
 
-## Special Thanks
+## API
 
-This app is based on [Esau Silva's](https://esausilva.com/) [example-create-react-app-express](https://github.com/esausilva/example-create-react-app-express)
+Base url : http://localhost:8888/
 
-## Tutorial
+| URL        | Parameter                                        | Response                                                                                                                                                                | Description                           |
+| ---------- | ------------------------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------- |
+| `/scraper` | <ul><li>cno</li><li>year</li><li>month</li></ul> | <ul><li>Name</li><li>Customer No</li><li>Meter No</li><li>Previous unit</li><li>Current Unit</li><li>Unit Consumption</li><li>Amount</li><li>Amount with fine</li></ul> | **cno** is a list of customer number, |
 
-Visit [Esau Silva's](https://esausilva.com/2017/11/14/how-to-use-create-react-app-with-a-node-express-backend-api/) blog to get step-by-step guide of how to make a node-express-react app in same directory
+Example: http://localhost:5000/scraper?cno=customer_no_1,customer_no_2&year=2020&month=10
+
+NB: Use [Postman](https://www.postman.com/) to test the api
+
+## Serverless API
+
+Comming soon
 
 ## Future Development
 
@@ -60,3 +68,11 @@ If you created something awesome and want to contribute then feel free to open a
 - Titas has a customer portal but i need a customer code to register to there portal which will be provided upon making a call to there helpline 16496,at the moment of writting this document nobody is picking up my call.Way to go digital Bangladesh
 - WASA has a customer portal
 - NBR need more research
+
+## Special Thanks
+
+This app is based on [Esau Silva's](https://esausilva.com/) [example-create-react-app-express](https://github.com/esausilva/example-create-react-app-express)
+
+## Tutorial
+
+Visit [Esau Silva's](https://esausilva.com/2017/11/14/how-to-use-create-react-app-with-a-node-express-backend-api/) blog to get step-by-step guide of how to make a node-express-react app in same directory
