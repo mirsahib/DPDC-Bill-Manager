@@ -38,4 +38,8 @@ Goto `controllers/scraper.controller.js` and edit the file according to your nee
 
 ## Special Thanks
 
-This app is based on [Esau Silva](https://esausilva.com/)'s [example-create-react-app-express](https://github.com/esausilva/example-create-react-app-express)
+This app is based on [Esau Silva's](https://esausilva.com/) [example-create-react-app-express](https://github.com/esausilva/example-create-react-app-express)
+
+## Tutorial
+
+Visit [Esau Silva's](https://esausilva.com/2017/11/14/how-to-use-create-react-app-with-a-node-express-backend-api/) blog to get step-by-step guide of how to make a node-express-react app in same directory
