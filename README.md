@@ -29,3 +29,13 @@ After successfull installation run
 ```bash
 yarn dev
 ```
+
+## How to reuse this project according to your need
+
+You need to know [cheerio](https://cheerio.js.org/) before you can start editing the scrapper function
+
+Goto `controllers/scraper.controller.js` and edit the file according to your need
+
+## Special Thanks
+
+This app is based on [Esau Silva](https://esausilva.com/)'s [example-create-react-app-express](https://github.com/esausilva/example-create-react-app-express)
