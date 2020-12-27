@@ -1,4 +1,4 @@
-# ⚡️ DPDC Bulk Bill Viewer ⚡️
+# ⚡️ DPDC Bill Manager⚡️
 
 ## Description:
 
