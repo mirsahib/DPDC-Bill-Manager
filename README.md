@@ -2,7 +2,7 @@
 
 ## Description:
 
-An app which will show bulk electricity bill from Dhaka Power Distribution Company (DPDC)
+An app to manage multiple electricity bill for Dhaka Power Distribution Company
 
 ## Example
 
