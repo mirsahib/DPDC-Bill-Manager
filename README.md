@@ -2,7 +2,7 @@
 
 ## Description:
 
-An app to manage multiple electricity bill for Dhaka Power Distribution Company
+An app to manage multiple electricity bill for Dhaka Power Distribution Company.
 
 ## Example
 
