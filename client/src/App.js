@@ -5,8 +5,26 @@ import "react-datepicker/dist/react-datepicker.css";
 import "./App.css";
 
 function App() {
+  // major app state
+  const [customerNoList, setCustomerNoList] = useState([]); // to handle list of customer no
+  const [customerNoId, setCustomerNoId] = useState(1); // to handle table 1 hastag tag value
+
   //Customer number state and event listener
+  const [customerNo, setCustomerNo] = useState(""); //to handle customer no. input field
+  const handleCustomerNo = (e) => {
+    setCustomerNo(e);
+  };
+
+  // handle empty string ------------very important
+  const handleSubmitCustomerNo = () => {
+    const customerNoObj = { id: customerNoId, cno: customerNo }; // create a customer number object with id (table # tag value)
+    setCustomerNoList([...customerNoList, customerNoObj]); // append new customer no.
+    setCustomerNoId(customerNoId + 1); // increment table 1 hastag value
+    setCustomerNo(""); // clear customer no. input field
+  };
+
   //Customer number table state and event listener (table 1)
+
   //Date state and event listener
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState(null);
@@ -34,18 +52,25 @@ function App() {
                 placeholder="Enter Customer No."
                 aria-label="Enter Customer No."
                 aria-describedby="basic-addon2"
+                value={customerNo}
+                onChange={(e) => handleCustomerNo(e.target.value)}
               />
               <div className="input-group-append">
-                <button className="btn btn-primary" type="button">
+                <button
+                  className="btn btn-primary mr-3"
+                  type="button"
+                  onClick={handleSubmitCustomerNo}
+                >
                   Add
                 </button>
+                <button className="btn btn-danger">Clear</button>
               </div>
             </div>
           </div>
         </div>
         {/**end of row 1 */}
         <div className="row">
-          <table class="table table-dark">
+          <table className="table table-dark">
             <thead>
               <tr>
                 <th scope="col">#</th>
@@ -53,18 +78,21 @@ function App() {
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <th scope="row">1</th>
-                <td>12312</td>
-              </tr>
-              <tr>
-                <th scope="row">2</th>
-                <td>123123</td>
-              </tr>
-              <tr>
-                <th scope="row">3</th>
-                <td>645645</td>
-              </tr>
+              {customerNoList.length !== 0 ? (
+                customerNoList.map((element) => {
+                  return (
+                    <tr key={element.id}>
+                      <th scope="row">{element.id}</th>
+                      <td>{element.cno}</td>
+                    </tr>
+                  );
+                })
+              ) : (
+                <tr>
+                  <th scope="row">0</th>
+                  <td>NA</td>
+                </tr>
+              )}
             </tbody>
           </table>
         </div>
@@ -90,7 +118,7 @@ function App() {
         </div>
         {/**end of row 3 */}
         <div className="row">
-          <table class="table table-dark">
+          <table className="table table-dark">
             <thead>
               <tr>
                 <th scope="col">#</th>
