@@ -8,7 +8,7 @@ import axios from "axios";
 
 function App() {
   // major app state
-  const [customerNoList, setCustomerNoList] = useState([]); // to handle list of customer no
+  const [tableOne, settableOne] = useState([]); // to handle list of customer no
   const [customerNoId, setCustomerNoId] = useState(1); // to handle table 1 hastag tag value
   const [tableTwo, setTableTwo] = useState([]);
 
@@ -21,7 +21,7 @@ function App() {
   const handleSubmitCustomerNo = (e) => {
     e.preventDefault();
     const customerNoObj = { id: customerNoId, cno: customerNo }; // create a customer number object with id (table # tag value)
-    setCustomerNoList([...customerNoList, customerNoObj]); // append new customer no.
+    settableOne([...tableOne, customerNoObj]); // append new customer no.
     setCustomerNoId(customerNoId + 1); // increment table 1 hastag value
     setCustomerNo(""); // clear customer no. input field
   };
@@ -29,7 +29,7 @@ function App() {
   //Customer number table state and event listener (table 1)
   //clear table t
   const handleTableClear = () => {
-    setCustomerNoList([]);
+    settableOne([]);
   };
 
   //Date state and event listener
@@ -43,23 +43,50 @@ function App() {
   // Fetch api
   const handleFetchApi = async () => {
     // check if table 1 is empty
-    if (customerNoList.length === 0) {
-      alert("Customer No table is empty");
-      return;
-    }
+    // if (tableOne.length === 0) {
+    //   alert("Customer No table is empty");
+    //   return;
+    // }
     // deconstruct date
     const month = startDate.getMonth() + 1; // date object start from 0,our api month range is 1-12
     const year = startDate.getFullYear();
     console.log("month", month, "year", year);
     // build api link
-    const extractCustomerNo = customerNoList.map((e) => {
+    const extractCustomerNo = tableOne.map((e) => {
       return e.cno;
     });
     const url = `/scraper?cno=${extractCustomerNo}&year=${year}&month=${month}`;
     // fetch data
-    const data = await axios.get(url);
-    setTableTwo(data.data);
+    // const data = await axios.get(url);
+    const data = JSON.parse(localStorage.getItem("sample"));
+
+    //calculate total amount
+    const totalAmount = data.reduce(function (prevElement, currElement) {
+      return prevElement + Number(currElement.Amount);
+    }, 0);
+    const totalAmountWithFine = data.reduce(function (
+      prevElement,
+      currElement
+    ) {
+      return prevElement + Number(currElement.Amount_With_Fine);
+    },
+    0);
+    const totalRow = {
+      id: "*",
+      Name: "***",
+      Customer_No: "***",
+      Meter_No: "***",
+      Previous_Unit: "***",
+      Current_Unit: "***",
+      Unit_Consumtion: "***",
+      Amount: totalAmount,
+      Amount_With_Fine: totalAmountWithFine,
+    };
+    data.push(totalRow);
+
+    setTableTwo(data);
   };
+
   //Bill table and event listener (table 2)
 
   return (
@@ -111,8 +138,8 @@ function App() {
               </tr>
             </thead>
             <tbody>
-              {customerNoList.length !== 0 ? (
-                customerNoList.map((element) => {
+              {tableOne.length !== 0 ? (
+                tableOne.map((element) => {
                   return (
                     <tr key={element.id}>
                       <th scope="row">{element.id}</th>
@@ -171,39 +198,35 @@ function App() {
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <th scope="row">1</th>
-                <td>Mark</td>
-                <td>111111</td>
-                <td>33213123</td>
-                <td>123213</td>
-                <td>4543</td>
-                <td>12334</td>
-                <td>6546</td>
-                <td>6546</td>
-              </tr>
-              <tr>
-                <th scope="row">2</th>
-                <td>Jacob</td>
-                <td>111111</td>
-                <td>33213123</td>
-                <td>123213</td>
-                <td>4543</td>
-                <td>12334</td>
-                <td>6546</td>
-                <td>6546</td>
-              </tr>
-              <tr>
-                <th scope="row">3</th>
-                <td>Larry</td>
-                <td>111111</td>
-                <td>33213123</td>
-                <td>123213</td>
-                <td>4543</td>
-                <td>12334</td>
-                <td>6546</td>
-                <td>6546</td>
-              </tr>
+              {tableTwo.length !== 0 ? (
+                tableTwo.map((element) => {
+                  return (
+                    <tr key={element.id}>
+                      <th scope="row">{element.id}</th>
+                      <td>{element.Name}</td>
+                      <td>{element.Customer_No}</td>
+                      <td>{element.Meter_No}</td>
+                      <td>{element.Previous_Unit}</td>
+                      <td>{element.Current_Unit}</td>
+                      <td>{element.Unit_Consumtion}</td>
+                      <td>{Number(element.Amount)}</td>
+                      <td>{Number(element.Amount_With_Fine)}</td>
+                    </tr>
+                  );
+                })
+              ) : (
+                <tr>
+                  <th scope="row">0</th>
+                  <td>NA</td>
+                  <td>NA</td>
+                  <td>NA</td>
+                  <td>NA</td>
+                  <td>NA</td>
+                  <td>NA</td>
+                  <td>NA</td>
+                  <td>NA</td>
+                </tr>
+              )}
             </tbody>
           </table>
         </div>

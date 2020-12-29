@@ -39,14 +39,15 @@ async function getData(year, month, customer_no, res) {
             "body > div:nth-child(6) > div > div.col-lg-9.col-md-9.col-sm-9 > div > table:nth-child(6) > tbody > tr > td:nth-child(1) > table > tbody > tr:nth-child(4) > td:nth-child(4)"
           ).text();
           const data = {
+            id: i,
             Name: name,
             Customer_No: cno,
             Meter_No: meter_no,
             Previous_Unit: prevUnit,
             Current_Unit: currUnit,
             Unit_Consumtion: unitConsume,
-            Amount: amount.trim(),
-            Amount_With_Fine: amount_with_fine,
+            Amount: Number(amount.trim()),
+            Amount_With_Fine: Number(amount_with_fine),
           };
           container.push(data);
         }) //end of then
