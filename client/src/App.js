@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import logo from "./images/logo.png";
 
 import "./App.css";
 
@@ -15,8 +16,8 @@ function App() {
     setCustomerNo(e);
   };
 
-  // handle empty string ------------very important
-  const handleSubmitCustomerNo = () => {
+  const handleSubmitCustomerNo = (e) => {
+    e.preventDefault();
     const customerNoObj = { id: customerNoId, cno: customerNo }; // create a customer number object with id (table # tag value)
     setCustomerNoList([...customerNoList, customerNoObj]); // append new customer no.
     setCustomerNoId(customerNoId + 1); // increment table 1 hastag value
@@ -24,6 +25,10 @@ function App() {
   };
 
   //Customer number table state and event listener (table 1)
+  //clear table t
+  const handleTableClear = () => {
+    setCustomerNoList([]);
+  };
 
   //Date state and event listener
   const [startDate, setStartDate] = useState(new Date());
@@ -33,39 +38,55 @@ function App() {
     setStartDate(start);
     setEndDate(end);
   };
+  // Fetch api
+  const handleFetchApi = () => {
+    // check if table 1 is empty
+    if (customerNoList.length === 0) {
+      alert("Customer No table is empty");
+    }
+    // deconstruct date
+    console.log("startDate", startDate, "endDate", endDate);
+    // fetch data
+  };
   //Bill table and event listener (table 2)
 
   return (
     <div>
       <nav id="nav-prim" className="navbar py-0 navbar-dark bg-dark">
         <a className="navbar-brand" href="/#">
+          <img src={logo} className="mr-1 pb-1" alt="DPDC-B-M" />
           DPDC Bill Manager
         </a>
       </nav>
       <div className="container">
         <div className="row mb-3">
           <div className="col-sm">
-            <div className="input-group py-0">
-              <input
-                type="text"
-                className="form-control"
-                placeholder="Enter Customer No."
-                aria-label="Enter Customer No."
-                aria-describedby="basic-addon2"
-                value={customerNo}
-                onChange={(e) => handleCustomerNo(e.target.value)}
-              />
-              <div className="input-group-append">
-                <button
-                  className="btn btn-primary mr-3"
-                  type="button"
-                  onClick={handleSubmitCustomerNo}
-                >
-                  Add
-                </button>
-                <button className="btn btn-danger">Clear</button>
+            <form onSubmit={handleSubmitCustomerNo}>
+              <div className="input-group py-0">
+                <input
+                  type="text"
+                  className="form-control"
+                  placeholder="Enter Customer No."
+                  aria-label="Enter Customer No."
+                  aria-describedby="basic-addon2"
+                  value={customerNo}
+                  onChange={(e) => handleCustomerNo(e.target.value)}
+                  required
+                />
+                <div className="input-group-append">
+                  <button className="btn btn-primary mr-3" type="submit">
+                    Add
+                  </button>
+                  <button
+                    className="btn btn-danger"
+                    type="button"
+                    onClick={handleTableClear}
+                  >
+                    Clear
+                  </button>
+                </div>
               </div>
-            </div>
+            </form>
           </div>
         </div>
         {/**end of row 1 */}
@@ -113,7 +134,12 @@ function App() {
             />
           </div>
           <div className="col-sm ">
-            <button className="btn btn-success float-right">Submit</button>
+            <button
+              className="btn btn-success float-right"
+              onClick={handleFetchApi}
+            >
+              Submit
+            </button>
           </div>
         </div>
         {/**end of row 3 */}
