@@ -7,13 +7,13 @@ import "./App.css";
 import axios from "axios";
 
 function App() {
-  // major app state
+  //-------------------------major app state--------------------------------------------------
   const [tableOne, settableOne] = useState([]); // to handle list of customer no
   const [customerNoId, setCustomerNoId] = useState(1); // to handle table 1 hastag tag value
   const [tableTwo, setTableTwo] = useState([]);
   const [loading, setLoading] = useState(false);
 
-  //Customer number state and event listener
+  //-----------------------Customer number state and event listener----------------------------
   const [customerNo, setCustomerNo] = useState(""); //to handle customer no. input field
   const handleCustomerNo = (e) => {
     setCustomerNo(e);
@@ -27,13 +27,13 @@ function App() {
     setCustomerNo(""); // clear customer no. input field
   };
 
-  //Customer number table state and event listener (table 1)
-  //clear table t
+  //-----------------------Customer number table state and event listener (table 1)-----------------------------
+  //clear table 1
   const handleTableClear = () => {
     settableOne([]);
   };
 
-  //Date state and event listener
+  //-----------------------Date state and event listener---------------------------------
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState(null); // there is no use of this state but we are using this to avoid datepicker bug(maybe i need to look into this)
   const onChange = (dates) => {
@@ -42,7 +42,7 @@ function App() {
     setEndDate(end);
   };
 
-  // Fetch api
+  //-----------------------Fetch api------------------------------------------------------
   const handleFetchApi = async () => {
     // check if table 1 is empty
     if (tableOne.length === 0) {
@@ -61,36 +61,43 @@ function App() {
     });
     const url = `/scraper?cno=${extractCustomerNo}&year=${year}&month=${month}`;
     // fetch data
-    //const data = await axios.get(url);
-    const data = JSON.parse(localStorage.getItem("sample"));
-
-    //calculate total amount
-    const totalAmount = data.reduce(function (prevElement, currElement) {
-      return prevElement + Number(currElement.Amount);
-    }, 0);
-    const totalAmountWithFine = data.reduce(function (
-      prevElement,
-      currElement
-    ) {
-      return prevElement + Number(currElement.Amount_With_Fine);
-    },
-    0);
-    const totalRow = {
-      id: "*",
-      Name: "***",
-      Customer_No: "***",
-      Meter_No: "***",
-      Previous_Unit: "***",
-      Current_Unit: "***",
-      Unit_Consumtion: "***",
-      Amount: totalAmount,
-      Amount_With_Fine: totalAmountWithFine,
-    };
-    data.push(totalRow);
-    setTableTwo(data);
+    try {
+      await axios.get(url).then((response) => {
+        //calculate total amount
+        const data = response.data;
+        const totalAmount = data.reduce(function (prevElement, currElement) {
+          return prevElement + Number(currElement.Amount);
+        }, 0);
+        const totalAmountWithFine = data.reduce(function (
+          prevElement,
+          currElement
+        ) {
+          return prevElement + Number(currElement.Amount_With_Fine);
+        },
+        0);
+        const totalRow = {
+          id: "*",
+          Name: "Total",
+          Customer_No: "***",
+          Meter_No: "***",
+          Previous_Unit: "***",
+          Current_Unit: "***",
+          Unit_Consumtion: "***",
+          Amount: totalAmount,
+          Amount_With_Fine: totalAmountWithFine,
+        };
+        data.push(totalRow);
+        setTableTwo(data);
+        setLoading(false);
+      }); //end axios
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoading(false);
+    }
   };
 
-  // makeApiCall to test loading spinner
+  // --------------------------------makeApiCall to test loading spinner---------------------------------------
   // const makeApiCall = async () => {
   //   setLoading(true);
   //   await axios.get("/hello").then((res) => {
@@ -156,6 +163,11 @@ function App() {
                     <tr key={element.id}>
                       <th scope="row">{element.id}</th>
                       <td>{element.cno}</td>
+                      <td>
+                        <button className="btn btn-light  btn-xs rounded-circle">
+                          X
+                        </button>
+                      </td>
                     </tr>
                   );
                 })
