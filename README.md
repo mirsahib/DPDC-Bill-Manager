@@ -62,7 +62,14 @@ Comming soon
 
 ## Future Development
 
-I want to scrape [DSCC](http://www.dscc.gov.bd/) (Corporation tax),[Titas](https://www.titasgas.org.bd/) (Gas distributor),[Wasa](http://dwasa.org.bd/) (Water And Sewage Authtority ),[NBR](http://nbr.gov.bd/) (Income tax) to make a complete Unitily manager for Dhaka's citizen.
+I want to scrape
+
+- [DSCC](http://www.dscc.gov.bd/) (Corporation tax)
+- [Titas](https://www.titasgas.org.bd/) (Gas distributor)
+- [Wasa](http://dwasa.org.bd/) (Water And Sewage Authtority )
+- [NBR](http://nbr.gov.bd/) (Income tax)
+
+to make a complete Unitily manager for Dhaka's citizen.
 
 ## Contribution
 
@@ -84,7 +91,3 @@ This app is based on [Esau Silva's](https://esausilva.com/) [example-create-reac
 ## Tutorial
 
 Visit [Esau Silva's](https://esausilva.com/2017/11/14/how-to-use-create-react-app-with-a-node-express-backend-api/) blog to get step-by-step guide of how to make a node-express-react app in same directory
-
-## Disclaimer
-
-Scraping a site is harmful if its done in the wrong way,my intention is purely for the betterment of Dhaka's citizen.Any person using this repository for ill-intention will be liable for his/her own deed.
