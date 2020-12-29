@@ -11,6 +11,7 @@ function App() {
   const [tableOne, settableOne] = useState([]); // to handle list of customer no
   const [customerNoId, setCustomerNoId] = useState(1); // to handle table 1 hastag tag value
   const [tableTwo, setTableTwo] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   //Customer number state and event listener
   const [customerNo, setCustomerNo] = useState(""); //to handle customer no. input field
@@ -40,13 +41,16 @@ function App() {
     setStartDate(start);
     setEndDate(end);
   };
+
   // Fetch api
   const handleFetchApi = async () => {
     // check if table 1 is empty
-    // if (tableOne.length === 0) {
-    //   alert("Customer No table is empty");
-    //   return;
-    // }
+    if (tableOne.length === 0) {
+      alert("Customer No table is empty");
+      return;
+    }
+    //run loading spinner
+    setLoading(true);
     // deconstruct date
     const month = startDate.getMonth() + 1; // date object start from 0,our api month range is 1-12
     const year = startDate.getFullYear();
@@ -57,7 +61,7 @@ function App() {
     });
     const url = `/scraper?cno=${extractCustomerNo}&year=${year}&month=${month}`;
     // fetch data
-    // const data = await axios.get(url);
+    //const data = await axios.get(url);
     const data = JSON.parse(localStorage.getItem("sample"));
 
     //calculate total amount
@@ -83,9 +87,17 @@ function App() {
       Amount_With_Fine: totalAmountWithFine,
     };
     data.push(totalRow);
-
     setTableTwo(data);
   };
+
+  // makeApiCall to test loading spinner
+  // const makeApiCall = async () => {
+  //   setLoading(true);
+  //   await axios.get("/hello").then((res) => {
+  //     console.log(res);
+  //     setLoading(false);
+  //   });
+  // };
 
   //Bill table and event listener (table 2)
 
@@ -180,9 +192,30 @@ function App() {
               Submit
             </button>
           </div>
+          {/* <div className="col-sm">
+            <button className="btn btn-primary" onClick={makeApiCall}>
+              click
+            </button>
+          </div> */}
         </div>
         {/**end of row 3 */}
         <div className="row">
+          {loading ? (
+            <div className="container mb-2 ">
+              <div className="row justify-content-center">
+                <div
+                  className="spinner-grow text-success justify-content-center"
+                  role="status"
+                >
+                  <span className="sr-only">Loading...</span>
+                </div>
+              </div>
+            </div>
+          ) : (
+            ""
+          )}
+          {/**end of spinner container */}
+
           <table className="table table-dark">
             <thead>
               <tr>
