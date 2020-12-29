@@ -10,7 +10,13 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 // API calls
+
 app.use("/", scraperRoutes);
+
+// API test call
+app.get("/hello", (req, res) => {
+  res.send("server says hi");
+});
 
 if (process.env.NODE_ENV === "production") {
   // Serve any static files

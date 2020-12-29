@@ -4,11 +4,13 @@ import "react-datepicker/dist/react-datepicker.css";
 import logo from "./images/logo.png";
 
 import "./App.css";
+import axios from "axios";
 
 function App() {
   // major app state
   const [customerNoList, setCustomerNoList] = useState([]); // to handle list of customer no
   const [customerNoId, setCustomerNoId] = useState(1); // to handle table 1 hastag tag value
+  const [tableTwo, setTableTwo] = useState([]);
 
   //Customer number state and event listener
   const [customerNo, setCustomerNo] = useState(""); //to handle customer no. input field
@@ -32,21 +34,31 @@ function App() {
 
   //Date state and event listener
   const [startDate, setStartDate] = useState(new Date());
-  const [endDate, setEndDate] = useState(null);
+  const [endDate, setEndDate] = useState(null); // there is no use of this state but we are using this to avoid datepicker bug(maybe i need to look into this)
   const onChange = (dates) => {
     const [start, end] = dates;
     setStartDate(start);
     setEndDate(end);
   };
   // Fetch api
-  const handleFetchApi = () => {
+  const handleFetchApi = async () => {
     // check if table 1 is empty
     if (customerNoList.length === 0) {
       alert("Customer No table is empty");
+      return;
     }
     // deconstruct date
-    console.log("startDate", startDate, "endDate", endDate);
+    const month = startDate.getMonth() + 1; // date object start from 0,our api month range is 1-12
+    const year = startDate.getFullYear();
+    console.log("month", month, "year", year);
+    // build api link
+    const extractCustomerNo = customerNoList.map((e) => {
+      return e.cno;
+    });
+    const url = `/scraper?cno=${extractCustomerNo}&year=${year}&month=${month}`;
     // fetch data
+    const data = await axios.get(url);
+    setTableTwo(data.data);
   };
   //Bill table and event listener (table 2)
 
@@ -120,7 +132,7 @@ function App() {
         {/**end of row 2 */}
         <div className="row mb-3">
           <div className="col-sm">
-            <h5>Select Month and Year</h5>
+            <h5>Select Month & Year</h5>
           </div>
           <div className="col-sm">
             <DatePicker
