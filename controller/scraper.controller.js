@@ -46,14 +46,13 @@ async function getData(year, month, customer_no, res) {
             Previous_Unit: prevUnit,
             Current_Unit: currUnit,
             Unit_Consumtion: unitConsume,
-            Amount: Number(amount.trim()),
+            Amount: Number(amount),
             Amount_With_Fine: Number(amount_with_fine),
           };
           container.push(data);
         }) //end of then
         .catch((err) => {
-          res.status(400).json(err.toString());
-          console.log(err.toString());
+          res.status(400).json(err);
         }); //end axios
       await sleep(5000); // wait for 5 seconds
     } //end of for loop
@@ -67,6 +66,7 @@ const run = async function (req, res) {
   const year = req.query.year;
   const month = req.query.month;
   const customer_no = req.query.cno.split(",");
+  //console.log({ year, month, customer_no });
   try {
     const data = await getData(year, month, customer_no, res);
     res.status(200).json(data);
