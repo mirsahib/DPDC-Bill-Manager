@@ -14,7 +14,12 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use("/", scraperRoutes);
 
 // API test call
-app.get("/hello", (req, res) => {
+async function sleep(millis) {
+  // testing loading spinner
+  return new Promise((resolve) => setTimeout(resolve, millis));
+}
+app.get("/hello", async (req, res) => {
+  await sleep(5000);
   res.send("server says hi");
 });
 
