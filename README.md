@@ -46,7 +46,7 @@ Goto `controllers/scraper.controller.js` and edit the file according to your nee
 
 ## API
 
-Base url : http://localhost:8888/
+Base url : http://localhost:5000/
 
 | URL        | Parameter                                        | Response                                                                                                                                                                | Description                           |
 | ---------- | ------------------------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------- |

@@ -8,7 +8,7 @@ import axios from "axios";
 
 function App() {
   //-------------------------major app state--------------------------------------------------
-  const [tableOne, settableOne] = useState([]); // to handle list of customer no
+  const [tableOne, setTableOne] = useState([]); // to handle list of customer no
   const [customerNoId, setCustomerNoId] = useState(1); // to handle table 1 hastag tag value
   const [tableTwo, setTableTwo] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -21,16 +21,50 @@ function App() {
 
   const handleSubmitCustomerNo = (e) => {
     e.preventDefault();
+    if (!Number(customerNo)) {
+      alert("Customer Number should be numeric");
+      return;
+    }
+
     const customerNoObj = { id: customerNoId, cno: customerNo }; // create a customer number object with id (table # tag value)
-    settableOne([...tableOne, customerNoObj]); // append new customer no.
+    setTableOne([...tableOne, customerNoObj]); // append new customer no.
     setCustomerNoId(customerNoId + 1); // increment table 1 hastag value
     setCustomerNo(""); // clear customer no. input field
   };
 
   //-----------------------Customer number table state and event listener (table 1)-----------------------------
+  //delete table 1 row
+  const handleTableRowClear = (id) => {
+    let newTableOne = tableOne.filter((row) => {
+      if (row.id !== id) {
+        return row;
+      }
+      return null;
+    });
+    // renaming id value (this can be done inside filter method,i need to do more research)
+    newTableOne = newTableOne.map((element, index) => {
+      element.id = index + 1;
+      return element;
+    });
+
+    // one liner need more working
+    // let container = tableOne;
+    // let newTableOne = container[0].reduce((a, c) => {
+    //   if (c.id !== id) {
+    //     c.id = a.length;
+    //     a.push(c);
+    //   }
+    //   return a;
+    // }, []);
+
+    // console.log(newTableOne);
+    setTableOne(newTableOne);
+    setCustomerNoId(customerNoId - 1); //decrease customerNoId
+    return null;
+  };
   //clear table 1
   const handleTableClear = () => {
-    settableOne([]);
+    setTableOne([]);
   };
 
   //-----------------------Date state and event listener---------------------------------
@@ -49,6 +83,7 @@ function App() {
       alert("Customer No table is empty");
       return;
     }
+
     //run loading spinner
     setLoading(true);
     // deconstruct date
@@ -164,7 +199,10 @@ function App() {
                       <th scope="row">{element.id}</th>
                       <td>{element.cno}</td>
                       <td>
-                        <button className="btn btn-light  btn-xs rounded-circle">
+                        <button
+                          className="btn btn-light  btn-xs rounded-circle"
+                          onClick={() => handleTableRowClear(element.id)}
+                        >
                           X
                         </button>
                       </td>
@@ -194,6 +232,9 @@ function App() {
               startDate={startDate}
               endDate={endDate}
               selectsRange
+              minDate={new Date("12-12-2018")}
+              maxDate={new Date("12-12-2020")}
+              showDisabledMonthNavigation
             />
           </div>
           <div className="col-sm ">
