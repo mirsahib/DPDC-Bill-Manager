@@ -12,6 +12,7 @@ function App() {
   const [customerNoId, setCustomerNoId] = useState(1); // to handle table 1 hastag tag value
   const [tableTwo, setTableTwo] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
 
   //-----------------------Customer number state and event listener----------------------------
   const [customerNo, setCustomerNo] = useState(""); //to handle customer no. input field
@@ -65,7 +66,7 @@ function App() {
   };
 
   //-----------------------Date state and event listener---------------------------------
-  const [startDate, setStartDate] = useState(new Date("11-12-2020"));
+  const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState(null); // there is no use of this state but we are using this to avoid datepicker bug(maybe i need to look into this)
   const onChange = (dates) => {
     const [start, end] = dates;
@@ -94,36 +95,43 @@ function App() {
     const url = `/scraper?cno=${extractCustomerNo}&year=${year}&month=${month}`;
     // fetch data
     try {
-      await axios.get(url).then((response) => {
-        //calculate total amount
-        const data = response.data;
-        const totalAmount = data.reduce(function (prevElement, currElement) {
-          return prevElement + Number(currElement.Amount);
-        }, 0);
-        const totalAmountWithFine = data.reduce(function (
-          prevElement,
-          currElement
-        ) {
-          return prevElement + Number(currElement.Amount_With_Fine);
-        },
-        0);
-        const totalRow = {
-          id: "*",
-          Name: "Total",
-          Customer_No: "***",
-          Meter_No: "***",
-          Previous_Unit: "***",
-          Current_Unit: "***",
-          Unit_Consumtion: "***",
-          Amount: totalAmount,
-          Amount_With_Fine: totalAmountWithFine,
-        };
-        data.push(totalRow);
-        setTableTwo(data);
-        setLoading(false);
-      }); //end axios
+      await axios
+        .get(url)
+        .then((response) => {
+          //calculate total amount
+          const data = response.data;
+          const totalAmount = data.reduce(function (prevElement, currElement) {
+            return prevElement + Number(currElement.Amount);
+          }, 0);
+          const totalAmountWithFine = data.reduce(function (
+            prevElement,
+            currElement
+          ) {
+            return prevElement + Number(currElement.Amount_With_Fine);
+          },
+          0);
+          const totalRow = {
+            id: "*",
+            Name: "Total",
+            Customer_No: "***",
+            Meter_No: "***",
+            Previous_Unit: "***",
+            Current_Unit: "***",
+            Unit_Consumtion: "***",
+            Amount: totalAmount,
+            Amount_With_Fine: totalAmountWithFine,
+          };
+          data.push(totalRow);
+          setTableTwo(data);
+          setLoading(false);
+        })
+        .catch((error) => {
+          console.log("From axios", error.response.data.msg);
+          setError(error.response.data.msg);
+        }); //end axios
     } catch (error) {
-      console.log(error);
+      console.log("From fetch api", error.response.data.msg);
+      setError(error.response.data.msg);
     } finally {
       setLoading(false);
     }
@@ -148,6 +156,7 @@ function App() {
           DPDC Bill Manager
         </a>
       </nav>
+
       <div className="container">
         <div className="row mb-3">
           <div className="col-sm">
@@ -230,7 +239,7 @@ function App() {
               endDate={endDate}
               selectsRange
               minDate={new Date("12-12-2018")}
-              maxDate={new Date("11-12-2020")}
+              maxDate={new Date()}
               showDisabledMonthNavigation
             />
           </div>
@@ -314,6 +323,27 @@ function App() {
           </table>
         </div>
         {/**end of row 4 */}
+        <div className="row justify-content-center align-items-center">
+          {error ? (
+            <div
+              className="alert alert-danger alert-dismissible fade show col"
+              role="alert"
+            >
+              {error}
+              <button
+                type="button"
+                className="close"
+                data-dismiss="alert"
+                aria-label="Close"
+              >
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+          ) : (
+            ""
+          )}
+        </div>
+        {/**end of row 5 */}
       </div>
       {/**end of container */}
     </div>
