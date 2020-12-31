@@ -12,6 +12,10 @@ An app to manage multiple electricity bill for Dhaka Power Distribution Company.
   </kbd>
 </p>
 
+## Heroku
+
+https://dpdc-bill-manager.herokuapp.com/
+
 ## Motivation
 
 My apartment has 5 electric meter and for each meter a bill is produce by my local power distributor([DPDC](https://dpdc.org.bd/)).Each month i have to download 5 bill copies from DPDC site.Even though DPDC provide me a hard copy for each bill i have to manually calculate the total bill amount.Because i am super lazy and have some medicore programming knowledge i build this app to make this process automated.
