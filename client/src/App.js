@@ -34,30 +34,27 @@ function App() {
 
   //-----------------------Customer number table state and event listener (table 1)-----------------------------
   //delete table 1 row
-  const handleTableRowClear = (id) => {
-    let newTableOne = tableOne.filter((row) => {
-      if (row.id !== id) {
-        return row;
-      }
-      return null;
-    });
-    // renaming id value (this can be done inside filter method,i need to do more research)
-    newTableOne = newTableOne.map((element, index) => {
-      element.id = index + 1;
-      return element;
-    });
-
-    // one liner need more working
-    // let container = tableOne;
-    // let newTableOne = container[0].reduce((a, c) => {
-    //   if (c.id !== id) {
-    //     c.id = a.length;
-    //     a.push(c);
+  const handleTableRowClear = (tag) => {
+    // let newTableOne = tableOne.filter((row) => {
+    //   if (row.id !== id) {
+    //     return row;
     //   }
-    //   return a;
-    // }, []);
+    //   return null;
+    // });
+    // // renaming id value (this can be done inside filter method,i need to do more research)
+    // newTableOne = newTableOne.map((element, index) => {
+    //   element.id = index + 1;
+    //   return element;
+    // });
+    //this one liner is taken from stackoverflow,the above also work
+    let newTableOne = tableOne.reduce((res, { id, cno }) => {
+      if (id === tag) {
+        return res;
+      }
+      res.push({ id: res.length + 1, cno });
+      return res;
+    }, []);
 
-    // console.log(newTableOne);
     setTableOne(newTableOne);
     setCustomerNoId(customerNoId - 1); //decrease customerNoId
     return null;
@@ -68,7 +65,7 @@ function App() {
   };
 
   //-----------------------Date state and event listener---------------------------------
-  const [startDate, setStartDate] = useState(new Date());
+  const [startDate, setStartDate] = useState(new Date("11-12-2020"));
   const [endDate, setEndDate] = useState(null); // there is no use of this state but we are using this to avoid datepicker bug(maybe i need to look into this)
   const onChange = (dates) => {
     const [start, end] = dates;
@@ -233,7 +230,7 @@ function App() {
               endDate={endDate}
               selectsRange
               minDate={new Date("12-12-2018")}
-              maxDate={new Date("12-12-2020")}
+              maxDate={new Date("11-12-2020")}
               showDisabledMonthNavigation
             />
           </div>
