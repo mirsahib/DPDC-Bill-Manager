@@ -1,6 +1,6 @@
 # ⚡️ DPDC Bill Manager⚡️
 
-## Description:
+## Description
 
 An app to manage multiple electricity bill for Dhaka Power Distribution Company.
 
@@ -12,7 +12,7 @@ An app to manage multiple electricity bill for Dhaka Power Distribution Company.
   </kbd>
 </p>
 
-## Motivation:
+## Motivation
 
 My apartment has 5 electric meter and for each meter a bill is produce by my local power distributor([DPDC](https://dpdc.org.bd/)).Each month i have to download 5 bill copies from DPDC site.Even though DPDC provide me a hard copy for each bill i have to manually calculate the total bill amount.Because i am super lazy and have some medicore programming knowledge i build this app to make this process automated.
 
@@ -71,18 +71,31 @@ I want to scrape
 
 to make a complete Unitily manager for Dhaka's citizen.
 
-## Contribution
-
-If you want to **contribute** and make this project much better for other developer have a look at [Issues](https://github.com/mirsahib/DPDC-Bulk-Bill-Viewer/issues).
-
-If you created something awesome and want to contribute then feel free to open a [pull request](https://github.com/mirsahib/DPDC-Bulk-Bill-Viewer/pulls).
-
 ## Challenges for future development
 
 - DSCC - has a customer portal which has a login system,at the moment of writing this document i don't know how to perform form submission using cheerio (this might not be possible with cheerio,have to use puppeteer or other scraping framework)
 - Titas - has a customer portal but i need a customer code to register to there portal which will be provided upon making a call to there helpline 16496,at the moment of writting this document nobody is picking up my call.Way to go digital Bangladesh
 - WASA - has a customer portal,need more research
 - NBR - need more research
+
+## Contribution
+
+If you want to **contribute** and make this project much better for other developer have a look at [Issues](https://github.com/mirsahib/DPDC-Bulk-Bill-Viewer/issues).
+
+If you created something awesome and want to contribute then feel free to open a [pull request](https://github.com/mirsahib/DPDC-Bulk-Bill-Viewer/pulls).
+
+## Bug
+
+In the future the app may crash because of
+
+`UnhandledPromiseRejectionWarning: Error [ERR_HTTP_HEADERS_SENT]: Cannot set headers after they are sent to the client`.
+
+Its a nodejs warning which means promise rejection is not handled in the try-catch block and in the future Nodejs will not show this warning,instead they will crash the app.This warning is generated in `/controller/scrapper.controller.js` and its happening because maybe inside the axios catch block there is an error which is not handled.Javascript try-catch work in very misterious way it only handle error on current code block,it won't handle error if current code is nested so we have to handle the nested code on another code block.If you want to know more about javascript error handling then do read
+
+- https://alphacoder.xyz/nodejs-unhandled-promise-rejection-warning/
+- https://medium.com/dailyjs/how-to-prevent-your-node-js-process-from-crashing-5d40247b8ab2
+
+I am currently really tired to solve this issue,If you can solve it please make a PR.
 
 ## Special Thanks
 
