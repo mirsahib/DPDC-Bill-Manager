@@ -8,7 +8,7 @@ An app to manage multiple electricity bill for Dhaka Power Distribution Company.
 
 <p align="center">
   <kbd>
-<img src=".github/DPDC-Bill-Manager.jpg"></img>
+<img src=".github/dpdc-bill-manager.jpg"></img>
   </kbd>
 </p>
 
