@@ -9,8 +9,41 @@ process.on("unhandledRejection", (reason, promise) => {
   //code will be updated when i have an error reporting service
 });
 
-async function sleep(millis) {
-  return new Promise((resolve) => setTimeout(resolve, millis));
+const run = async function (req, res) {
+  const year = req.query.year;
+  const month = req.query.month;
+  const customer_no = req.query.cno.split(",");
+  //console.log({ year, month, customer_no });
+
+  try {
+    //error handling code
+    if (checkParam(year) && checkParam(month) && checkParam(customer_no)) {
+      const data = await getData(year, month, customer_no, res);
+      res.status(200).json(data);
+    } else {
+      res.status(400).json({
+        msg: "Parameters are undefined or null value",
+        parameter: { year, month, customer_no },
+      });
+    }
+  } catch (error) {
+    res.status(500).json({ msg: error });
+  }
+};
+
+function checkParam(param) {
+  let result = false;
+  //check if parameter is undefined,null or empty
+  if (param === undefined) {
+    result = false;
+  } else if (param === null) {
+    result = false;
+  } else if (param.length === 0) {
+    result = false;
+  } else {
+    result = true;
+  }
+  return result;
 }
 
 async function getData(year, month, customer_no, res) {
@@ -66,8 +99,8 @@ async function getData(year, month, customer_no, res) {
             ).text();
           } //end of name check
         }) //end of then
-        .catch((err) => {
-          res.status(400).json({ msg: err });
+        .catch((error) => {
+          res.status(400).json({ msg: error });
         }); //end axios
       await sleep(5000); // wait for 5 seconds
     } //end of for loop
@@ -77,17 +110,8 @@ async function getData(year, month, customer_no, res) {
   return container;
 }
 
-const run = async function (req, res) {
-  const year = req.query.year;
-  const month = req.query.month;
-  const customer_no = req.query.cno.split(",");
-  //console.log({ year, month, customer_no });
-  try {
-    const data = await getData(year, month, customer_no, res);
-    res.status(200).json(data);
-  } catch (error) {
-    res.status(500).json({ msg: error });
-  }
-};
+async function sleep(millis) {
+  return new Promise((resolve) => setTimeout(resolve, millis));
+}
 
 module.exports = { run };
