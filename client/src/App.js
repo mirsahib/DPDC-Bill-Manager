@@ -189,7 +189,7 @@ function App() {
           </div>
         </div>
         {/**end of row 1 */}
-        <div className="row">
+        <div className="row" style={{ overflowX: "auto" }}>
           <table className="table table-dark">
             <thead>
               <tr>
@@ -258,7 +258,7 @@ function App() {
           </div> */}
         </div>
         {/**end of row 3 */}
-        <div className="row">
+        <div className="row" style={{ overflowX: "auto" }}>
           {loading ? (
             <div className="container mb-2 ">
               <div className="row justify-content-center">
